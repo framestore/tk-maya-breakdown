@@ -1,0 +1,43 @@
+#
+# Copyright (c) 2012 Shotgun Software, Inc
+# ----------------------------------------------------
+#
+# Metadata defining the behaviour and requirements for this app
+
+
+# expected fields in the configuration file for this app
+configuration:
+    templates_publish: 
+        type: list
+        description: A list of templates that represent publishes. 
+                    Each template needs to have a name and a version field.
+        allows_empty: true
+        values:
+            type: dict
+            items:
+                name:
+                    type: template
+                    required_fields: [name, version]
+                publish:
+                    type: template
+                    required_fields: [name, version]
+    
+    hook_scan_scene:
+        type: hook
+        description: Scan the scene for input files.
+        parameters: []
+        returns: A list of nodes and file names. Each item in the list returned should be a 
+                 dictionary containing a node, type and a path key. The node key should be a 
+                 maya node name, the type key is a reference type and the path key is a full
+                 path to the file currently being referenced.
+    
+    hook_update:
+        type: hook
+        description: Update a node to another version. The node type is the same node type
+                     returned from the scan scene hook.
+        parameters: [node, type, new_path]
+        returns: No return value
+
+# the Shotgun fields that this app needs in order to operate correctly
+requires_shotgun_fields:
+
