@@ -17,9 +17,11 @@ configuration:
             items:
                 name:
                     type: template
+                    optional_fields: "*"
                     required_fields: [name, version]
                 publish:
                     type: template
+                    optional_fields: "*"
                     required_fields: [name, version]
     
     hook_scan_scene:
