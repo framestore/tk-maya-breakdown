@@ -38,10 +38,10 @@ class BreakdownItem(object):
         params["type"] = self.ref_type 
         params["new_path"] = self.latest_version_path
         
-        self._app.execute_hook_from_setting("hook_update",
-                                            node=self.scene_node, 
-                                            node_type=self.ref_type,
-                                            new_path=self.latest_version_path)
+        self._app.execute_hook("hook_update",
+                                node=self.scene_node, 
+                                node_type=self.ref_type,
+                                new_path=self.latest_version_path)
         
         self.scene_version = self.latest_version
         

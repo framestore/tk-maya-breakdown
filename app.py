@@ -6,7 +6,7 @@ A breakdown app which shows what in the scene is out of date.
 
 """
 
-from tank.system import Application
+from tank.platform import Application
 
 import sys
 import os

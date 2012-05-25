@@ -7,7 +7,7 @@ import pymel.core as pm
 
 import tank
 from tank.errors import TankError
-from tank.system import Context
+from tank.platform import Context
 
 from . import BreakdownItem
 from . import BreakdownWindow
@@ -24,7 +24,7 @@ class Breakdown(object):
     def refresh(self):
         self._items = []
         
-        items = self.app.execute_hook_from_setting("hook_scan_scene")
+        items = self.app.execute_hook("hook_scan_scene")
         
         for ref in items:
             item = self._get_breakdown_item_from_ref(ref)
@@ -39,8 +39,8 @@ class Breakdown(object):
         self.templates = []
         for tmpl_entry in self.app.get_setting("templates_publish", []):
             
-            tmpl = self.app.engine.tank.templates.get(tmpl_entry.get("publish"))
-            tmpl_name = self.app.engine.tank.templates.get(tmpl_entry.get("name"))
+            tmpl = self.app.get_template_by_name(tmpl_entry.get("publish"))
+            tmpl_name = self.app.get_template_by_name(tmpl_entry.get("name"))
                 
             if tmpl and tmpl_name:
                 self.templates.append({"publish": tmpl, "name": tmpl_name})
