@@ -26,19 +26,18 @@ configuration:
     
     hook_scan_scene:
         type: hook
-        description: Scan the scene for input files.
+        description: Scan the scene for input files. Returns A list of nodes and file names. 
+                     Each item in the list returned should be a 
+                     dictionary containing a node, type and a path key. The node key should be a 
+                     maya node name, the type key is a reference type and the path key is a full
+                     path to the file currently being referenced.
         parameters: []
-        returns: A list of nodes and file names. Each item in the list returned should be a 
-                 dictionary containing a node, type and a path key. The node key should be a 
-                 maya node name, the type key is a reference type and the path key is a full
-                 path to the file currently being referenced.
     
     hook_update:
         type: hook
         description: Update a node to another version. The node type is the same node type
                      returned from the scan scene hook.
         parameters: [node, type, new_path]
-        returns: No return value
 
 # the Shotgun fields that this app needs in order to operate correctly
 requires_shotgun_fields:
