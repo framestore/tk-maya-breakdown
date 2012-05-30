@@ -7,7 +7,6 @@ import pymel.core as pm
 
 import tank
 from tank.errors import TankError
-from tank.platform import Context
 
 from . import BreakdownItem
 from . import BreakdownWindow
@@ -68,7 +67,7 @@ class Breakdown(object):
         if tmpl_entry:
             fields = tmpl_entry["publish"].get_fields(path)
             name = tmpl_entry["name"].apply_fields(fields, prepend_tank_project=False)
-            ctx = Context.from_path(path)
+            ctx = self.app.tank.context_from_path(path)
             (latest,latest_path) = self._get_latest_version(tmpl_entry["publish"], fields)
             
             item = BreakdownItem(self.app, name, ctx.entity, ctx.step, ctx.task)
