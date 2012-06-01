@@ -20,5 +20,5 @@ class MayaBreakdown(Application):
        self.engine.register_command("Breakdown...", breakdown.breakdown)
     
     def destroy_app(self):
-        self.engine.log_debug("Destroying tk-maya-breakdown")
+        self.log_debug("Destroying tk-maya-breakdown")
 

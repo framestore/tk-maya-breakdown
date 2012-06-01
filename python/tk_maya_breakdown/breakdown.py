@@ -44,7 +44,7 @@ class Breakdown(object):
             if tmpl and tmpl_name:
                 self.templates.append({"publish": tmpl, "name": tmpl_name})
             else:
-                self.app.engine.log_warning("Missing/invalid publish template '%s' in "
+                self.app.log_warning("Missing/invalid publish template '%s' in "
                                             "main configuration file. The breakdown will "
                                             "not be able to recognize these files." % tmpl_entry)
                                             
@@ -81,7 +81,7 @@ class Breakdown(object):
     def _get_latest_version(self, tmpl, fields):
         latest_version = 0
         latest_path = None
-        all_versions = self.app.engine.tank.find_files(tmpl, fields, skip_keys="version")
+        all_versions = self.app.tank.find_files(tmpl, fields, skip_keys="version")
         for ver in all_versions:
             fields = tmpl.get_fields(ver)
             if fields["version"] > latest_version:
