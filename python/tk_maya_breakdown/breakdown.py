@@ -36,22 +36,14 @@ class Breakdown(object):
         Any templates which are not recongized or cannot be resolved are ignored.
         """
         self.templates = []
-        for tmpl_entry in self.app.get_setting("templates_publish", []):
-            
-            tmpl = self.app.get_template_by_name(tmpl_entry.get("publish"))
-            tmpl_name = self.app.get_template_by_name(tmpl_entry.get("name"))
-                
-            if tmpl and tmpl_name:
-                self.templates.append({"publish": tmpl, "name": tmpl_name})
-            else:
-                self.app.log_warning("Missing/invalid publish template '%s' in "
-                                            "main configuration file. The breakdown will "
-                                            "not be able to recognize these files." % tmpl_entry)
+        for tmpl_entry in self.app.get_setting("templates_to_look_for", []):
+            tmpl = self.app.get_template_by_name(tmpl_entry)                
+            self.templates.append(tmpl)
                                             
     
     def _get_template(self, path):
         for tmpl_entry in self.templates:
-            if tmpl_entry["publish"].validate(path):
+            if tmpl_entry.validate(path):
                 return tmpl_entry
         
         return None
@@ -65,10 +57,11 @@ class Breakdown(object):
         tmpl_entry = self._get_template(path)
         
         if tmpl_entry:
-            fields = tmpl_entry["publish"].get_fields(path)
-            name = tmpl_entry["name"].apply_fields(fields, prepend_tank_project=False)
+            fields = tmpl_entry.get_fields(path)
+            name = "%s, v%03d" % (fields["name"], fields["version"])
+            
             ctx = self.app.tank.context_from_path(path)
-            (latest,latest_path) = self._get_latest_version(tmpl_entry["publish"], fields)
+            (latest,latest_path) = self._get_latest_version(tmpl_entry, fields)
             
             item = BreakdownItem(self.app, name, ctx.entity, ctx.step, ctx.task)
             item.scene_version = fields["version"]
@@ -81,7 +74,7 @@ class Breakdown(object):
     def _get_latest_version(self, tmpl, fields):
         latest_version = 0
         latest_path = None
-        all_versions = self.app.tank.find_files(tmpl, fields, skip_keys="version")
+        all_versions = self.app.tank.paths_from_template(tmpl, fields, skip_keys="version")
         for ver in all_versions:
             fields = tmpl.get_fields(ver)
             if fields["version"] > latest_version:
