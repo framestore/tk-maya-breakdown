@@ -87,17 +87,21 @@ class BreakdownWindow(object):
                 
                 entity_name = item.entity["name"] if item.entity else "No Entity"
                 step_name = item.step["name"] if item.step else "No Step"
-                name = "%s (%s, %s)" % (item.name, entity_name, step_name)
+                
+                if item.is_latest_version():
+                    name = "<b style='color: #9ce678'>%s, v%03d</b> (%s, %s)" % (item.name, item.version, entity_name, step_name)
+                else:
+                    name = "<b style='color: #ff9999'>%s, v%03d</b> (%s, %s)" % (item.name, item.version, entity_name, step_name)
+
                 
                 pm.text(label=name)
                 pm.separator(style="none")
                 
-                cb = Callback(self.on_update, item)
-                pm.button(label="Update", 
-                          annotation="A more recent version is available. Click to update.",
-                          enable=not item.is_latest_version(), 
-                          command=cb)
-
+                if not item.is_latest_version():
+                    cb = Callback(self.on_update, item)
+                    pm.button(label="Update", annotation="A more recent version is available. Click to update.", command=cb)
+                else:
+                    pm.button(label="Up to date!", enable=False)
     
 
             

@@ -58,17 +58,19 @@ class Breakdown(object):
         
         if tmpl_entry:
             fields = tmpl_entry.get_fields(path)
-            name = "%s, v%03d" % (fields["name"], fields["version"])
             
             ctx = self.app.tank.context_from_path(path)
-            (latest,latest_path) = self._get_latest_version(tmpl_entry, fields)
+            (latest, latest_path) = self._get_latest_version(tmpl_entry, fields)
             
-            item = BreakdownItem(self.app, name, ctx.entity, ctx.step, ctx.task)
-            item.scene_version = fields["version"]
-            item.scene_node = ref["node"]
-            item.ref_type = ref["type"]
-            item.latest_version = latest
-            item.latest_version_path = latest_path
+            item = BreakdownItem(self.app, 
+                                 fields["name"], 
+                                 fields["version"], 
+                                 ctx, 
+                                 ref["node"],
+                                 ref["type"],
+                                 latest,
+                                 latest_path)
+            
         return item
     
     def _get_latest_version(self, tmpl, fields):
