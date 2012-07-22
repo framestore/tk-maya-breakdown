@@ -71,27 +71,21 @@ class AppDialog(QtGui.QDialog):
         if curr_selection is None:
             return
             
-#        nuke_node = curr_selection.data["node"]
-#        new_path = curr_selection.data["path"]
-#        new_version = curr_selection.data["fields"]["version"]
-#        
-#        res = QtGui.QMessageBox.question(self,
-#                                         "Load version?",
-#                                         "Update the nuke node '%s' to use version %03d?" % (nuke_node.name(), new_version),
-#                                         QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel)
-#
-#        if res == QtGui.QMessageBox.Ok:            
-#            # apparently you have to do this weird nuke transaction thing.
-#            # it is not entirely clear to me why - just one of those
-#            # nuke inconsistencies.             
-#            nuke.root().begin()
-#            try:
-#                nuke_node.knob("file").setValue(new_path)
-#            finally:
-#                nuke.root().end()
-#            
-#            # finally refresh the UI
-#            self.setup_scene_list()
+        node_name = curr_selection.data["node_name"]
+        node_type = curr_selection.data["node_type"]
+        path = curr_selection.data["path"]
+        new_version = curr_selection.data["fields"]["version"]
+            
+        res = QtGui.QMessageBox.question(self,
+                                         "Load version?",
+                                         "Update the node '%s' to use version %03d?" % (node_name, new_version),
+                                         QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel)
+
+        if res == QtGui.QMessageBox.Ok:            
+            # call out to hook
+            self._app.execute_hook("hook_update", node=node_name, node_type=node_type, new_path=path)
+            # finally refresh the UI
+            self.setup_scene_list()
     
         
     def setup_scene_list(self): 
