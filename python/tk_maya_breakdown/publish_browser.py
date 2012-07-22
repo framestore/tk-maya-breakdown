@@ -9,7 +9,7 @@ import datetime
 import threading 
 
 
-from PySide import QtCore, QtGui
+from PyQt4 import QtCore, QtGui
 from .browser_widget import BrowserWidget
 from .browser_widget import ListItem
 from .browser_widget import ListHeader
@@ -35,7 +35,8 @@ class PublishBrowserWidget(BrowserWidget):
     def get_data(self, data):
         
         # get the data
-        self._nuke_node = data["node"]
+        self._node_name = data["node_name"]
+        self._node_type = data["node_type"]
         self._template = data["template"]
         self._curr_fields = data["fields"]
         self._curr_path = self._template.apply_fields(self._curr_fields) 
@@ -81,7 +82,8 @@ class PublishBrowserWidget(BrowserWidget):
         result = {}
         for path in all_sequences:
             result[path] = {}
-            result[path]["node"] = self._nuke_node
+            result[path]["node_name"] = self._node_name
+            result[path]["node_type"] = self._node_type
             result[path]["path"] = path
             result[path]["fields"] = self._template.get_fields(path)
             # use the stuff we collected based on individual sequence files

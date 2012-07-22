@@ -7,9 +7,10 @@ import os
 import sys
 import datetime
 import threading 
+import maya
 
 
-from PySide import QtCore, QtGui
+from PyQt4 import QtCore, QtGui
 from .browser_widget import BrowserWidget
 from .browser_widget import ListItem
 from .browser_widget import ListHeader
@@ -26,13 +27,21 @@ class SceneBrowserWidget(BrowserWidget):
         
         items = []
 
+        # because maya is brittle when it comes to threads
+        # (even reading dag data WTF) have to use their 
+        # special hack. See
+        # http://download.autodesk.com/global/docs/maya2013/en_us/files/Python_Python_and_threading.htm
+        scene_objects = maya.utils.executeInMainThreadWithResult(self._app.execute_hook, "hook_scan_scene")
+        # returns a list of dictionaries, each dict being like this:
+        # {"node": node_name, "type": "reference", "path": maya_path}
+        
         # scan scene and add all tank nodes to list
-        for node in nuke.allNodes("Read"):
+        for scene_object in scene_objects:
             
-            # note! We are getting the "abstract path", so contains
-            # %04d and %V rather than actual values.
-            file_name = node.knob("file").value().replace("/", os.path.sep)
-                        
+            node_name = scene_object.get("node")
+            node_type = scene_object.get("type")
+            file_name = scene_object.get("path").replace("/", os.path.sep)
+            
             # see if this read node matches any path in the templates setup
             matching_template = self._app.tank.template_from_path(file_name)            
             
@@ -52,7 +61,8 @@ class SceneBrowserWidget(BrowserWidget):
                     
                     item = {}
                     item["path"] = normalized_path
-                    item["node"] = node
+                    item["node_name"] = node_name
+                    item["node_type"] = node_type
                     item["template"] = matching_template
                     item["fields"] = fields
                     item["sg_data"] = None                
@@ -147,13 +157,14 @@ class SceneBrowserWidget(BrowserWidget):
                 # provide a limited amount of data for receivers via the 
                 # data dictionary on
                 # the item object
-                i.data = {"node": d["node"], 
+                i.data = {"node_name": d["node_name"], 
+                          "node_type": d["node_type"],
                           "template": d["template"],
                           "fields": d["fields"] }
                 
                 # populate the description
                 details = []
-                details.append("<b>Maya Node</b>: %s" % d["node"].name())
+                details.append("<b>Maya Node</b>: %s" % d["node_name"])
                 
                 if d.get("sg_data"):
                          
