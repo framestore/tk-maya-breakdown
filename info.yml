@@ -8,19 +8,6 @@
 # expected fields in the configuration file for this app
 configuration:
 
-    templates_to_look_for:
-        type: list
-        description: List of templates to look for when scanning the scene for inputs.
-                     A template listed here needs to have a field called version and
-                     a field named name. The version field
-                     will be used in the comparison to determine what is out of date.
-                     The name field will be displayed in the UI.
-        values:
-            type: template
-            required_fields: [version, name]
-            optional_fields: "*"
-
-
     hook_scan_scene:
         type: hook
         description: Scan the scene for input files. Returns A list of nodes and file names.

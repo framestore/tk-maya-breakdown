@@ -14,11 +14,12 @@ import os
 class MayaBreakdown(Application):
     
     def init_app(self):
-       from tk_maya_breakdown import Breakdown
-       
-       breakdown = Breakdown(self)
-       self.engine.register_command("Breakdown...", breakdown.breakdown)
-    
-    def destroy_app(self):
-        self.log_debug("Destroying tk-maya-breakdown")
+        import tk_maya_breakdown
+
+        self.app_handler = tk_maya_breakdown.AppHandler(self)
+        
+        # add stuff to main menu
+        self.engine.register_command("Scene Breakdown...", self.app_handler.show_dialog)
+
+
 
