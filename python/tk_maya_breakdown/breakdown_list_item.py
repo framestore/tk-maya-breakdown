@@ -157,11 +157,15 @@ class BreakdownListItem(SmallIconListItem):
     
     def __init__(self, app, worker, parent=None):
         SmallIconListItem.__init__(self, app, worker, parent)
+        self._green_pixmap = QtGui.QPixmap(":/res/green_bullet.png")
+        self._red_pixmap = QtGui.QPixmap(":/res/red_bullet.png")
+        
 
     def calculate_status(self, template, fields, show_red, show_green, entity_dict = None):
         """
         Figure out if this is a red or a green one. Also get thumb if possible
         """
+        
         # we can only process stuff with a version
         if "version" not in fields:
             raise Exception("Fields must have a version!")
@@ -192,9 +196,6 @@ class BreakdownListItem(SmallIconListItem):
         ########################################################################
         # stage 1: calculate the thumbnail
 
-        # set default
-        output["thumbnail"] = ":/res/thumb_empty.png"
-        
         # see if we can download a thumbnail
         # thumbnail can be in any of the fields
         # entity.Asset.image
@@ -272,20 +273,17 @@ class BreakdownListItem(SmallIconListItem):
         # stop spin
         self._timer.stop()
             
-        # set thumbnail        
-        self.ui.thumbnail.setPixmap(QtGui.QPixmap(data["thumbnail"]))
+        # set thumbnail
+        if data.get("thumbnail"):
+            self.ui.thumbnail.setPixmap(QtGui.QPixmap(data.get("thumbnail")))
 
-        # set overlay - red or green
-        # overlay the green or red mask on top of the thumbnail
+        # set light - red or green
         if data["up_to_date"]:
             icon = self._green_pixmap
         else:
-            icon = self._red_pixmap
-        thumb = self.ui.thumbnail.pixmap()
-        painter = QtGui.QPainter(thumb)
-        painter.drawPixmap(0,0, icon)
-        painter.end()
-            
+            icon = self._red_pixmap        
+        self.ui.light.setPixmap(icon)
+        
         # figure out if this item should be hidden
         if data["up_to_date"] == True and self._show_green == False:
             self.setVisible(False) 

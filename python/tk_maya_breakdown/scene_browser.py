@@ -22,7 +22,6 @@ class SceneBrowserWidget(BrowserWidget):
     def __init__(self, parent=None):
         BrowserWidget.__init__(self, parent)
 
-
     def get_data(self, data):
         
         items = []

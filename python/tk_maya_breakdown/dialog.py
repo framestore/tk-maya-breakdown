@@ -29,7 +29,8 @@ class AppDialog(QtGui.QDialog):
         self.ui.chk_red.toggled.connect(self.setup_scene_list)
                 
         self.ui.update.clicked.connect(self.update_items)
-                
+        self.ui.select_all.clicked.connect(self.select_all)
+        
         # load data from shotgun
         self.setup_scene_list()     
            
@@ -61,6 +62,11 @@ class AppDialog(QtGui.QDialog):
     ########################################################################################
     # basic business logic        
         
+    def select_all(self):
+        for x in self.ui.browser.get_items():
+            self.ui.browser.select(x)
+        
+        
     def update_items(self):
             
         curr_selection = self.ui.browser.get_selected_items()
@@ -75,14 +81,14 @@ class AppDialog(QtGui.QDialog):
             d["node_name"] = curr_selection.data["node_name"]
             d["node_type"] = curr_selection.data["node_type"] 
             d["path"] = curr_selection.data["path"]
-            new_version = curr_selection.data["fields"]["version"]
+            data.append(d)
             
         res = QtGui.QMessageBox.question(self, "Update?", "Update the selected nodes?",
                                          QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel)
 
         if res == QtGui.QMessageBox.Ok:            
             # call out to hook
-            self._app.execute_hook("hook_update", node=node_name, node_type=node_type, new_path=path)
+            self._app.execute_hook("hook_update", items=data)
             # finally refresh the UI
             self.setup_scene_list()
     

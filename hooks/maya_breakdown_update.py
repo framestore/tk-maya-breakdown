@@ -14,7 +14,17 @@ import pymel.core as pm
 
 class MayaBreakdownUpdate(Hook):
     
-    def execute(self, node, node_type, new_path, **kwargs):
+    def execute(self, items, **kwargs):
+
+        # items is a list of dicts. Each dict has items node_type, node_name and path
+
+        for i in items:
+            node_name = i["node_name"]
+            node_type = i["node_type"]
+            path = i["path"]
+        
+        
+        
         engine = self.parent.engine
         engine.log_debug("%s: Updating reference to version %s" % (node, new_path))
 
