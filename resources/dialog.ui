@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
+    <width>490</width>
     <height>618</height>
    </rect>
   </property>
@@ -26,6 +26,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="spacing">
+      <number>3</number>
+     </property>
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
@@ -76,6 +79,13 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="select_all">
+       <property name="text">
+        <string>Select All</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="update">

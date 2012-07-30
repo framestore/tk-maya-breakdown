@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Mon Jul 30 07:01:05 2012
+# Created: Mon Jul 30 16:12:55 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(442, 618)
+        Dialog.resize(490, 618)
         Dialog.setWindowTitle(QtGui.QApplication.translate("Dialog", "Scene Breakdown", None, QtGui.QApplication.UnicodeUTF8))
         self.verticalLayout = QtGui.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
@@ -30,6 +30,7 @@ class Ui_Dialog(object):
         self.browser.setObjectName(_fromUtf8("browser"))
         self.verticalLayout.addWidget(self.browser)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
+        self.horizontalLayout_3.setSpacing(3)
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
         self.groupBox = QtGui.QGroupBox(Dialog)
         self.groupBox.setTitle(_fromUtf8(""))
@@ -57,6 +58,10 @@ class Ui_Dialog(object):
         self.horizontalLayout_3.addWidget(self.groupBox)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
+        self.select_all = QtGui.QPushButton(Dialog)
+        self.select_all.setText(QtGui.QApplication.translate("Dialog", "Select All", None, QtGui.QApplication.UnicodeUTF8))
+        self.select_all.setObjectName(_fromUtf8("select_all"))
+        self.horizontalLayout_3.addWidget(self.select_all)
         self.update = QtGui.QPushButton(Dialog)
         self.update.setText(QtGui.QApplication.translate("Dialog", "Update Selected", None, QtGui.QApplication.UnicodeUTF8))
         self.update.setObjectName(_fromUtf8("update"))
