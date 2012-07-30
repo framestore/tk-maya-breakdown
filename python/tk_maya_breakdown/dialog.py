@@ -21,29 +21,25 @@ class AppDialog(QtGui.QDialog):
         self.ui.setupUi(self)
         
         # set up the browsers
-        self.ui.left_browser.set_app(self._app)
-        self.ui.right_browser.set_app(self._app)
-        self.ui.left_browser.set_label("In your Scene")
-        self.ui.right_browser.set_label("Available Versions")
-        
-        self.ui.left_browser.selection_changed.connect( self.load_versions )
-        
+        self.ui.browser.set_app(self._app)
+        self.ui.browser.set_label("Items in your Scene")
+        self.ui.browser.enable_multi_select(True)
+                
         self.ui.chk_green.toggled.connect(self.setup_scene_list)
         self.ui.chk_red.toggled.connect(self.setup_scene_list)
                 
-        self.ui.right_browser.action_requested.connect( self.update_item )
+        self.ui.update.clicked.connect(self.update_items)
                 
         # load data from shotgun
         self.setup_scene_list()     
-        self.ui.right_browser.set_message("Please select an item in the list on the left.")   
+           
         
     ########################################################################################
     # make sure we trap when the dialog is closed so that we can shut down 
     # our threads. Nuke does not do proper cleanup on exit.
     
     def _cleanup(self):
-        self.ui.left_browser.destroy()
-        self.ui.right_browser.destroy()
+        self.ui.browser.destroy()
         
     def closeEvent(self, event):
         self._cleanup()
@@ -65,20 +61,23 @@ class AppDialog(QtGui.QDialog):
     ########################################################################################
     # basic business logic        
         
-    def update_item(self):
+    def update_items(self):
             
-        curr_selection = self.ui.right_browser.get_selected_item()
-        if curr_selection is None:
+        curr_selection = self.ui.browser.get_selected_items()
+            
+        if len(curr_selection) == 0:
+            QtGui.QMessageBox.information(self, "Please select", "Please select items to update!")            
             return
+        
+        data = []
+        for x in curr_selection:
+            d = {}
+            d["node_name"] = curr_selection.data["node_name"]
+            d["node_type"] = curr_selection.data["node_type"] 
+            d["path"] = curr_selection.data["path"]
+            new_version = curr_selection.data["fields"]["version"]
             
-        node_name = curr_selection.data["node_name"]
-        node_type = curr_selection.data["node_type"]
-        path = curr_selection.data["path"]
-        new_version = curr_selection.data["fields"]["version"]
-            
-        res = QtGui.QMessageBox.question(self,
-                                         "Load version?",
-                                         "Update the node '%s' to use version %03d?" % (node_name, new_version),
+        res = QtGui.QMessageBox.question(self, "Update?", "Update the selected nodes?",
                                          QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel)
 
         if res == QtGui.QMessageBox.Ok:            
@@ -89,8 +88,7 @@ class AppDialog(QtGui.QDialog):
     
         
     def setup_scene_list(self): 
-        self.ui.left_browser.clear()
-        self.ui.right_browser.clear()
+        self.ui.browser.clear()
         
         d = {}
         
@@ -110,17 +108,8 @@ class AppDialog(QtGui.QDialog):
             d["show_red"] = True
             d["show_green"] = True
             
-        self.ui.left_browser.load(d)
+        self.ui.browser.load(d)
 
-    def load_versions(self): 
-        self.ui.right_browser.clear()
-        
-        curr_selection = self.ui.left_browser.get_selected_item()
-        if curr_selection is None:
-            return
-        
-        self.ui.right_browser.load(curr_selection.data)
-        
         
         
         
