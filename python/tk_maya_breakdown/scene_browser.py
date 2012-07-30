@@ -75,14 +75,11 @@ class SceneBrowserWidget(BrowserWidget):
         valid_paths = [ x.get("path") for x in items ]
         fields = ["entity", 
                   "entity.Asset.sg_asset_type", # grab asset type if it is an asset
-                  "code", 
+                  "code",
+                  "image", 
                   "name", 
                   "tank_type", 
                   "task", 
-                  "entity.Asset.image",         # grab thumbnails from entity
-                  "entity.Shot.image",          # slight hack to minimise
-                  "entity.Scene.image",         # number of shotgun queries
-                  "entity.Sequence.image", 
                   "version_number",
                   ]
         sg_data = tank.util.find_publish(self._app.tank, valid_paths, fields=fields)
