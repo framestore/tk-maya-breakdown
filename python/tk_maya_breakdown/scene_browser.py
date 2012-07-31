@@ -76,7 +76,8 @@ class SceneBrowserWidget(BrowserWidget):
         fields = ["entity", 
                   "entity.Asset.sg_asset_type", # grab asset type if it is an asset
                   "code",
-                  "image", 
+                  "image",
+                  "entity.Asset.image", # hack for demo 
                   "name", 
                   "tank_type", 
                   "task", 
@@ -91,6 +92,9 @@ class SceneBrowserWidget(BrowserWidget):
                     item["sg_data"] = sg_chunk
             
         return {"items": items, "show_red": data["show_red"], "show_green": data["show_green"] } 
+    
+    def _make_row(self, first, second):
+        return "<tr><td><b>%s</b>&nbsp;&nbsp;&nbsp;</td><td>%s</td></tr>" % (first, second)
     
 
     def process_result(self, result):
@@ -160,24 +164,29 @@ class SceneBrowserWidget(BrowserWidget):
                 
                 # populate the description
                 details = []
-                details.append("<b>Maya Node</b>: %s" % d["node_name"])
+                
                 
                 if d.get("sg_data"):
+
+                    sg_data = d["sg_data"]
+                    
+                    details.append( self._make_row("Item", "%s, Version %d" % (sg_data["name"], sg_data["version_number"]) ) )
                          
                     # see if this publish is associated with an entity
-                    sg_data = d["sg_data"]
                     linked_entity = sg_data.get("entity")
                     if linked_entity:
-                        details.append("<b>%s</b> %s" % (linked_entity["type"], linked_entity["name"]))                    
-                    # add the name
-                    details.append("<b>Name:</b> %s, v %d" % (sg_data["name"], sg_data["version_number"]))
+                        details.append( self._make_row(linked_entity["type"], linked_entity["name"]) )                    
+                    
                     # does it have a tank type ?
                     if sg_data.get("tank_type"):
-                        details.append("<b>Tank Type:</b> %s" % sg_data.get("tank_type").get("name"))
+                        details.append( self._make_row("Type", sg_data.get("tank_type").get("name")))
+
+                    details.append( self._make_row("Maya Node", d["node_name"]))
+
 
                 else:
                     
-                    details.append("<b>Version:</b> %d" % d["fields"]["version"] )
+                    details.append(self._make_row("Version", d["fields"]["version"] ))
                     
                     # display some key fields in the widget
                     # todo: make this more generic?
@@ -186,9 +195,13 @@ class SceneBrowserWidget(BrowserWidget):
                     for (k,v) in d["fields"].items():
                         # only show relevant fields - a bit of a hack
                         if k in relevant_fields:
-                            details.append("<b>%s:</b> %s" % (k, v))
+                            details.append( self._make_row(k,v) )
                 
-                i.set_details("<br>".join(details))
+                    details.append( self._make_row("Maya Node", d["node_name"]))
+                
+                inner = "".join(details)
+                
+                i.set_details("<table>%s</table>" % inner)
                 
                 # finally, ask the node to calculate its red-green status
                 # this will happen asynchronously.

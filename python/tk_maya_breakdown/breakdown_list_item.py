@@ -220,7 +220,9 @@ class BreakdownListItem(SmallIconListItem):
         # entity.Sequence.image
         if self._sg_data:
              
-            thumb_url = self._sg_data.get("image")
+            #thumb_url = self._sg_data.get("image")
+            print self._sg_data
+            thumb_url = self._sg_data.get("entity.Asset.image")
             
             if thumb_url is not None:
                 # input is a dict with a url key
@@ -228,6 +230,11 @@ class BreakdownListItem(SmallIconListItem):
                 ret = self._download_thumbnail({"url": thumb_url})
                 if ret:
                     output["thumbnail"] = ret.get("thumb_path")
+                else:
+                    output["thumbnail"] = ":/res/no_thumb.png"
+            else:
+                output["thumbnail"] = ":/res/no_thumb.png"
+            
                 
         
         ########################################################################
