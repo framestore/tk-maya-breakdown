@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'item.ui'
 #
-# Created: Mon Jul 30 17:23:39 2012
+# Created: Tue Jul 31 15:45:40 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -34,7 +34,7 @@ class Ui_Item(object):
         self.background.setObjectName(_fromUtf8("background"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.background)
         self.horizontalLayout.setSpacing(8)
-        self.horizontalLayout.setMargin(2)
+        self.horizontalLayout.setContentsMargins(10, 2, 2, 2)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.light = QtGui.QLabel(self.background)
         self.light.setText(_fromUtf8(""))

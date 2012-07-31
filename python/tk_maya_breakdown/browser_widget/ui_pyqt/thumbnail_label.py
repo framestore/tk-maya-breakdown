@@ -17,7 +17,7 @@ class ThumbnailLabel(QtGui.QLabel):
         # scale the pixmap down to fit
         if pixmap.height() > 80 or pixmap.width() > 120:
             # scale it down to 120x80
-            pixmap = pixmap.scaled( QtCore.QSize(120,80), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+            pixmap = pixmap.scaled( QtCore.QSize(120,80), QtCore.Qt.KeepAspectRatioByExpanding, QtCore.Qt.SmoothTransformation)
         
         # now slap it on top of a 120x80 transparent canvas
         rendered_pixmap = QtGui.QPixmap(120, 80)
