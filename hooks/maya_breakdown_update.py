@@ -19,25 +19,23 @@ class MayaBreakdownUpdate(Hook):
         # items is a list of dicts. Each dict has items node_type, node_name and path
 
         for i in items:
-            node_name = i["node_name"]
+            node = i["node_name"]
             node_type = i["node_type"]
-            path = i["path"]
+            new_path = i["path"]
         
-        
-        
-        engine = self.parent.engine
-        engine.log_debug("%s: Updating reference to version %s" % (node, new_path))
-
-        if node_type == "reference":
-            # maya reference            
-            rn = pm.system.FileReference(node)
-            rn.replaceWith(new_path)
-            
-        elif node_type == "file":
-            # file texture node
-            file_name = cmds.getAttr("%s.fileTextureName" % node)
-            cmds.setAttr("%s.fileTextureName" % node, new_path, type="string")
-            
-        else:
-            raise Exception("Unknown node type %s" % node_type)
+            engine = self.parent.engine
+            engine.log_debug("%s: Updating reference to version %s" % (node, new_path))
+    
+            if node_type == "reference":
+                # maya reference            
+                rn = pm.system.FileReference(node)
+                rn.replaceWith(new_path)
+                
+            elif node_type == "file":
+                # file texture node
+                file_name = cmds.getAttr("%s.fileTextureName" % node)
+                cmds.setAttr("%s.fileTextureName" % node, new_path, type="string")
+                
+            else:
+                raise Exception("Unknown node type %s" % node_type)
 

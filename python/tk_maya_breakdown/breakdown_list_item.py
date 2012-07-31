@@ -159,7 +159,23 @@ class BreakdownListItem(SmallIconListItem):
         SmallIconListItem.__init__(self, app, worker, parent)
         self._green_pixmap = QtGui.QPixmap(":/res/green_bullet.png")
         self._red_pixmap = QtGui.QPixmap(":/res/red_bullet.png")
-        
+        self._latest_version = None
+        self._is_latest = None 
+
+    def get_latest_version_number(self):
+        # returns none if not yet determined
+        return self._latest_version
+    
+    def is_latest_version(self):
+        # returns none if not yet determined
+        return self._is_latest
+    
+    def is_out_of_date(self):
+        # returns none if not yet determined
+        if self._is_latest is None:
+            return None
+        else:
+            return self._is_latest == False
 
     def calculate_status(self, template, fields, show_red, show_green, entity_dict = None):
         """
@@ -237,6 +253,9 @@ class BreakdownListItem(SmallIconListItem):
         
         current_version = self._fields["version"]
         output["up_to_date"] = (latest_version == current_version)
+        
+        self._latest_version = latest_version
+        self._is_latest = output["up_to_date"]
             
         return output
         

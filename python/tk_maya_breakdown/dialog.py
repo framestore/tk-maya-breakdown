@@ -3,6 +3,7 @@ Copyright (c) 2012 Shotgun Software, Inc
 ----------------------------------------------------
 """
 import tank
+import copy
 import os
 import sys
 import threading
@@ -29,7 +30,7 @@ class AppDialog(QtGui.QDialog):
         self.ui.chk_red.toggled.connect(self.setup_scene_list)
                 
         self.ui.update.clicked.connect(self.update_items)
-        self.ui.select_all.clicked.connect(self.select_all)
+        self.ui.select_all.clicked.connect(self.select_all_red)
         
         # load data from shotgun
         self.setup_scene_list()     
@@ -62,9 +63,13 @@ class AppDialog(QtGui.QDialog):
     ########################################################################################
     # basic business logic        
         
-    def select_all(self):
+    def select_all_red(self):
         for x in self.ui.browser.get_items():
-            self.ui.browser.select(x)
+            try: # hack - all items arent breakdown nodes
+                if x.is_out_of_date():
+                    self.ui.browser.select(x)
+            except:
+                pass
         
         
     def update_items(self):
@@ -77,10 +82,25 @@ class AppDialog(QtGui.QDialog):
         
         data = []
         for x in curr_selection:
+            
+            if x.is_latest_version() is None or x.is_latest_version() == True:
+                # either unloaded or up to date
+                continue 
+            
+            latest_version = x.get_latest_version_number()
+            if latest_version is None:
+                continue
+            
+            # calculate path based on latest version
+            new_fields = copy.deepcopy(x.data["fields"])
+            new_fields["version"] = latest_version
+            new_path = x.data["template"].apply_fields(new_fields)
+            
             d = {}
-            d["node_name"] = curr_selection.data["node_name"]
-            d["node_type"] = curr_selection.data["node_type"] 
-            d["path"] = curr_selection.data["path"]
+            d["node_name"] = x.data["node_name"]
+            d["node_type"] = x.data["node_type"] 
+            d["path"] = new_path
+            
             data.append(d)
             
         res = QtGui.QMessageBox.question(self, "Update?", "Update the selected nodes?",

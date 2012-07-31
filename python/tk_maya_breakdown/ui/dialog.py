@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'dialog.ui'
 #
-# Created: Mon Jul 30 16:53:24 2012
+# Created: Mon Jul 30 17:23:39 2012
 #      by: PyQt4 UI code generator 4.8.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -59,7 +59,7 @@ class Ui_Dialog(object):
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.select_all = QtGui.QPushButton(Dialog)
-        self.select_all.setText(QtGui.QApplication.translate("Dialog", "Select All", None, QtGui.QApplication.UnicodeUTF8))
+        self.select_all.setText(QtGui.QApplication.translate("Dialog", "Select All Red", None, QtGui.QApplication.UnicodeUTF8))
         self.select_all.setObjectName(_fromUtf8("select_all"))
         self.horizontalLayout_3.addWidget(self.select_all)
         self.update = QtGui.QPushButton(Dialog)

@@ -22,7 +22,7 @@ configuration:
         type: hook
         description: Update a node to another version. The node type is the same node type
                      returned from the scan scene hook.
-        parameters: [node, type, new_path]
+        parameters: [data]
         default_value: maya_breakdown_update
 
 # the Shotgun fields that this app needs in order to operate correctly

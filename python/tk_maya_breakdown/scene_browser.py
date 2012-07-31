@@ -170,12 +170,14 @@ class SceneBrowserWidget(BrowserWidget):
                     if linked_entity:
                         details.append("<b>%s</b> %s" % (linked_entity["type"], linked_entity["name"]))                    
                     # add the name
-                    details.append("<b>Name:</b> %s" % sg_data["name"])
+                    details.append("<b>Name:</b> %s, v %d" % (sg_data["name"], sg_data["version_number"]))
                     # does it have a tank type ?
                     if sg_data.get("tank_type"):
                         details.append("<b>Tank Type:</b> %s" % sg_data.get("tank_type").get("name"))
 
                 else:
+                    
+                    details.append("<b>Version:</b> %d" % d["fields"]["version"] )
                     
                     # display some key fields in the widget
                     # todo: make this more generic?
