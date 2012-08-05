@@ -21,6 +21,9 @@ class SceneBrowserWidget(BrowserWidget):
     
     def __init__(self, parent=None):
         BrowserWidget.__init__(self, parent)
+        
+        # cache the resolved paths metadata - it doesn't change!
+        self._resolved_paths = {}
 
     def get_data(self, data):
         
@@ -73,6 +76,19 @@ class SceneBrowserWidget(BrowserWidget):
         # now now do a second pass on all the files that are valid to see if they are published
         # note that we store (by convention) all things on a normalized form in SG.
         valid_paths = [ x.get("path") for x in items ]
+        
+        # check if we have the path in the cache
+        paths_to_fetch = []
+        for p in valid_paths:
+            if p not in self._resolved_paths:
+                paths_to_fetch.append(p)
+            else:
+                # use cache data!
+                for item in items:
+                    if item.get("path") == p:
+                        item["sg_data"] = self._resolved_paths[p]
+                
+        
         fields = ["entity", 
                   "entity.Asset.sg_asset_type", # grab asset type if it is an asset
                   "code",
@@ -83,9 +99,13 @@ class SceneBrowserWidget(BrowserWidget):
                   "task", 
                   "version_number",
                   ]
-        sg_data = tank.util.find_publish(self._app.tank, valid_paths, fields=fields)
+        sg_data = tank.util.find_publish(self._app.tank, paths_to_fetch, fields=fields)
 
+        # process and cache shotgun items
         for (path, sg_chunk) in sg_data.items():
+            # cache item
+            self._resolved_paths[path] = sg_chunk
+            
             # change type from valid -> publish
             for item in items:
                 if item.get("path") == path:
