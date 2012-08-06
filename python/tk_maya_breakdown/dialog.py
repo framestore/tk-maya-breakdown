@@ -103,14 +103,10 @@ class AppDialog(QtGui.QDialog):
             
             data.append(d)
             
-        res = QtGui.QMessageBox.question(self, "Update?", "Update the selected nodes?",
-                                         QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel)
-
-        if res == QtGui.QMessageBox.Ok:            
-            # call out to hook
-            self._app.execute_hook("hook_update", items=data)
-            # finally refresh the UI
-            self.setup_scene_list()
+        # call out to hook
+        self._app.execute_hook("hook_update", items=data)
+        # finally refresh the UI
+        self.setup_scene_list()
     
         
     def setup_scene_list(self): 

@@ -29,11 +29,6 @@ class AppHandler(object):
         # objects and destroy them and unless we store the dialog as a member
         self._dialog = AppDialog(self._app)
         
-        # run modal dialogue
-        self._dialog.exec_()
+        # run modeless dialogue
+        self._dialog.show()
         
-        # on the mac, need to delete it - otherwise a "ghost" will remain
-        # after closing has happened - on other platforms, however, this
-        # double deletion crashes Nuke >.<
-        if sys.platform == "darwin":
-            self._dialog.deleteLater()
