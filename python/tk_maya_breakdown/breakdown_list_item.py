@@ -8,7 +8,7 @@ import urllib
 import shutil
 import sys
 
-from PyQt4 import QtCore, QtGui
+from PySide import QtCore, QtGui
 
 from .browser_widget.list_base import ListBase
 from .ui.item import Ui_Item

@@ -8,7 +8,7 @@ import os
 import sys
 import threading
 
-from PyQt4 import QtCore, QtGui
+from PySide import QtCore, QtGui
 from .ui.dialog import Ui_Dialog
 
 class AppDialog(QtGui.QDialog):

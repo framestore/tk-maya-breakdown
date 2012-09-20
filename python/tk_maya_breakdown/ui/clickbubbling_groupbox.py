@@ -5,7 +5,7 @@ Copyright (c) 2012 Shotgun Software, Inc
 import os
 import sys
 
-from PyQt4 import QtCore, QtGui 
+from PySide import QtCore, QtGui 
 
 class ClickBubblingGroupBox(QtGui.QGroupBox):
 

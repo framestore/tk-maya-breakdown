@@ -2,21 +2,16 @@
 
 # Form implementation generated from reading ui file 'item.ui'
 #
-# Created: Tue Jul 31 15:45:40 2012
-#      by: PyQt4 UI code generator 4.8.6
+# Created: Thu Sep 20 14:58:05 2012
+#      by: pyside-uic 0.2.13 running on PySide 1.1.0
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt4 import QtCore, QtGui
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    _fromUtf8 = lambda s: s
+from PySide import QtCore, QtGui
 
 class Ui_Item(object):
     def setupUi(self, Item):
-        Item.setObjectName(_fromUtf8("Item"))
+        Item.setObjectName("Item")
         Item.resize(329, 65)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -24,31 +19,30 @@ class Ui_Item(object):
         sizePolicy.setHeightForWidth(Item.sizePolicy().hasHeightForWidth())
         Item.setSizePolicy(sizePolicy)
         Item.setMinimumSize(QtCore.QSize(0, 65))
-        Item.setWindowTitle(QtGui.QApplication.translate("Item", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.verticalLayout = QtGui.QVBoxLayout(Item)
         self.verticalLayout.setSpacing(2)
-        self.verticalLayout.setMargin(2)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.verticalLayout.setContentsMargins(2, 2, 2, 2)
+        self.verticalLayout.setObjectName("verticalLayout")
         self.background = ClickBubblingGroupBox(Item)
-        self.background.setTitle(_fromUtf8(""))
-        self.background.setObjectName(_fromUtf8("background"))
+        self.background.setTitle("")
+        self.background.setObjectName("background")
         self.horizontalLayout = QtGui.QHBoxLayout(self.background)
         self.horizontalLayout.setSpacing(8)
         self.horizontalLayout.setContentsMargins(10, 2, 2, 2)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.light = QtGui.QLabel(self.background)
-        self.light.setText(_fromUtf8(""))
-        self.light.setPixmap(QtGui.QPixmap(_fromUtf8(":/res/empty_bullet.png")))
-        self.light.setObjectName(_fromUtf8("light"))
+        self.light.setText("")
+        self.light.setPixmap(QtGui.QPixmap(":/res/empty_bullet.png"))
+        self.light.setObjectName("light")
         self.horizontalLayout.addWidget(self.light)
         self.thumbnail = ThumbnailLabel(self.background)
         self.thumbnail.setMinimumSize(QtCore.QSize(60, 40))
         self.thumbnail.setMaximumSize(QtCore.QSize(60, 40))
-        self.thumbnail.setText(_fromUtf8(""))
-        self.thumbnail.setPixmap(QtGui.QPixmap(_fromUtf8(":/res/no_thumb.png")))
+        self.thumbnail.setText("")
+        self.thumbnail.setPixmap(QtGui.QPixmap(":/res/no_thumb.png"))
         self.thumbnail.setScaledContents(False)
         self.thumbnail.setAlignment(QtCore.Qt.AlignCenter)
-        self.thumbnail.setObjectName(_fromUtf8("thumbnail"))
+        self.thumbnail.setObjectName("thumbnail")
         self.horizontalLayout.addWidget(self.thumbnail)
         self.details = QtGui.QLabel(self.background)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
@@ -56,10 +50,9 @@ class Ui_Item(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.details.sizePolicy().hasHeightForWidth())
         self.details.setSizePolicy(sizePolicy)
-        self.details.setText(QtGui.QApplication.translate("Item", "content", None, QtGui.QApplication.UnicodeUTF8))
         self.details.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.details.setWordWrap(True)
-        self.details.setObjectName(_fromUtf8("details"))
+        self.details.setObjectName("details")
         self.horizontalLayout.addWidget(self.details)
         self.verticalLayout.addWidget(self.background)
 
@@ -67,7 +60,8 @@ class Ui_Item(object):
         QtCore.QMetaObject.connectSlotsByName(Item)
 
     def retranslateUi(self, Item):
-        pass
+        Item.setWindowTitle(QtGui.QApplication.translate("Item", "Form", None, QtGui.QApplication.UnicodeUTF8))
+        self.details.setText(QtGui.QApplication.translate("Item", "content", None, QtGui.QApplication.UnicodeUTF8))
 
 from .clickbubbling_groupbox import ClickBubblingGroupBox
 from .thumbnail_label import ThumbnailLabel
