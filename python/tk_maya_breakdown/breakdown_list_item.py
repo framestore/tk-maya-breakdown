@@ -221,7 +221,7 @@ class BreakdownListItem(SmallIconListItem):
         if self._sg_data:
              
             #thumb_url = self._sg_data.get("image")
-            thumb_url = self._sg_data.get("entity.Asset.image")
+            thumb_url = self._sg_data.get("image")
             
             if thumb_url is not None:
                 # input is a dict with a url key

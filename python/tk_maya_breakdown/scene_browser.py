@@ -93,7 +93,6 @@ class SceneBrowserWidget(BrowserWidget):
                   "entity.Asset.sg_asset_type", # grab asset type if it is an asset
                   "code",
                   "image",
-                  "entity.Asset.image", # hack for demo 
                   "name", 
                   "tank_type", 
                   "task", 
