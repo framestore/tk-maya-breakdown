@@ -104,7 +104,7 @@ class AppDialog(QtGui.QDialog):
             data.append(d)
             
         # call out to hook
-        self._app.execute_hook("hook_update", items=data)
+        self._app.execute_hook("hook_multi_update", items=data)
         # finally refresh the UI
         self.setup_scene_list()
     

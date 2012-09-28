@@ -18,10 +18,12 @@ configuration:
         parameters: []
         default_value: maya_breakdown_scan_scene
 
-    hook_update:
+    hook_multi_update:
         type: hook
-        description: Update a node to another version. The node type is the same node type
-                     returned from the scan scene hook.
+        description: Update a collection of nodes to another version. The data parameter is a list
+                     of dictionaries, every dictionary contains the three keys node_name, node_type
+                     and path. The node_name and node_type are simply the same data that the 
+                     scene scan hook returned, and the path value is the new path to load.                     
         parameters: [data]
         default_value: maya_breakdown_update
 
