@@ -14,8 +14,7 @@ import os
 class MayaBreakdown(Application):
     
     def init_app(self):
-        import tk_maya_breakdown
-
+        tk_maya_breakdown = self.import_module("tk_maya_breakdown")
         self.app_handler = tk_maya_breakdown.AppHandler(self)
         
         # add stuff to main menu
