@@ -56,7 +56,7 @@ class SceneBrowserWidget(BrowserWidget):
                     # now the fields are the raw breakdown of the path in the read node.
                     # could be bla.left.0002.exr, bla.%V.####.exr etc
                     # now normalize the fields SEQ and eye
-                    fields["SEQ"] = "FORMAT:%0d"
+                    fields["SEQ"] = "FORMAT: %d"
                     fields["eye"] = "%V"
                     normalized_path = matching_template.apply_fields(fields)
                     
