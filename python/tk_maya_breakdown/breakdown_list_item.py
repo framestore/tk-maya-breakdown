@@ -7,17 +7,15 @@ import os
 import urllib
 import shutil
 import sys
+import tank
 
 from PySide import QtCore, QtGui
 
-from .browser_widget.list_base import ListBase
+browser_widget = tank.platform.import_framework("tk-framework-widget", "browser_widget")
+
 from .ui.item import Ui_Item
 
-
-
-
-
-class SmallIconListItem(ListBase):
+class SmallIconListItem(browser_widget.list_base.ListBase):
     # copied across ListItem class and changed the UI.
     
     def __init__(self, app, worker, parent=None):

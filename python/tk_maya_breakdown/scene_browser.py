@@ -8,15 +8,15 @@ import sys
 import datetime
 import threading 
 import maya
-
+import tank
 
 from PySide import QtCore, QtGui
-from .browser_widget import BrowserWidget
-from .browser_widget import ListItem
-from .browser_widget import ListHeader
+
+browser_widget = tank.platform.import_framework("tk-framework-widget", "browser_widget")
+
 from .breakdown_list_item import BreakdownListItem
 
-class SceneBrowserWidget(BrowserWidget):
+class SceneBrowserWidget(browser_widget.BrowserWidget):
 
     
     def __init__(self, parent=None):
@@ -165,7 +165,7 @@ class SceneBrowserWidget(BrowserWidget):
         # now iterate through the groups
         for group in sorted(groups.keys()):
             
-            i = self.add_item(ListHeader)
+            i = self.add_item(browser_widget.ListHeader)
             i.set_title(group)
             for d in groups[group]:
 

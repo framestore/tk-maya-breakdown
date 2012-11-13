@@ -41,3 +41,9 @@ requires_engine_version: "v0.2.0"
 
 # the engines that this app can operate in:
 supported_engines: [tk-maya]
+
+
+# the frameworks required to run this app
+frameworks:
+    - {"name": "tk-framework-widget", "version": "v0.1.0"}
+    
