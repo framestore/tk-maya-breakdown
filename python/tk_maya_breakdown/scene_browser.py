@@ -20,7 +20,7 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
 
     
     def __init__(self, parent=None):
-        BrowserWidget.__init__(self, parent)
+        browser_widget.BrowserWidget.__init__(self, parent)
         
         # cache the resolved paths metadata - it doesn't change!
         self._resolved_paths = {}
