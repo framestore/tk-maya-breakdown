@@ -66,7 +66,7 @@ class AppDialog(QtGui.QDialog):
     def select_all_red(self):
         for x in self.ui.browser.get_items():
             try: # hack - all items arent breakdown nodes
-                if x.is_out_of_date():
+                if x.is_out_of_date() and not x.is_selected():
                     self.ui.browser.select(x)
             except:
                 pass
