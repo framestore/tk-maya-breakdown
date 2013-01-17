@@ -19,7 +19,7 @@ class SmallIconListItem(browser_widget.list_base.ListBase):
     # copied across ListItem class and changed the UI.
     
     def __init__(self, app, worker, parent=None):
-        ListBase.__init__(self, app, worker, parent)
+        browser_widget.list_base.ListBase.__init__(self, app, worker, parent)
 
         # set up the UI
         self.ui = Ui_Item() 
