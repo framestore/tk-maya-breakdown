@@ -86,17 +86,21 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
                 for item in items:
                     if item.get("path") == p:
                         item["sg_data"] = self._resolved_paths[p]
-                
         
         fields = ["entity", 
                   "entity.Asset.sg_asset_type", # grab asset type if it is an asset
                   "code",
                   "image",
                   "name", 
-                  "tank_type", 
                   "task", 
                   "version_number",
                   ]
+
+        if tank.util.get_published_file_entity_type(self._app.tank) == "PublishedFile":
+            fields.append("published_file_type")
+        else:# == "TankPublishedFile"
+            fields.append("tank_type")            
+        
         sg_data = tank.util.find_publish(self._app.tank, paths_to_fetch, fields=fields)
 
         # process and cache shotgun items
@@ -162,6 +166,11 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
         ################################################################################
         # PASS 2 - display the content of all groups
 
+        if tank.util.get_published_file_entity_type(self._app.tank) == "PublishedFile":
+            published_file_type_field = "published_file_type"
+        else:# == "TankPublishedFile"
+            published_file_type_field = "tank_type"            
+
         # now iterate through the groups
         for group in sorted(groups.keys()):
             
@@ -196,8 +205,8 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
                         details.append( self._make_row(linked_entity["type"], linked_entity["name"]) )                    
                     
                     # does it have a tank type ?
-                    if sg_data.get("tank_type"):
-                        details.append( self._make_row("Type", sg_data.get("tank_type").get("name")))
+                    if sg_data.get(published_file_type_field):
+                        details.append( self._make_row("Type", sg_data.get(published_file_type_field).get("name")))
 
                     details.append( self._make_row("Maya Node", d["node_name"]))
 
