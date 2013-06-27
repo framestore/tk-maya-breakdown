@@ -1,4 +1,4 @@
 tk-maya-breakdown
 =================
 
-Tank Maya Breakdown
+Shotgun Pipeline Toolkit Maya Breakdown
