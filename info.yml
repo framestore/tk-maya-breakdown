@@ -51,5 +51,5 @@ supported_engines: [tk-maya]
 
 # the frameworks required to run this app
 frameworks:
-    - {"name": "tk-framework-widget", "version": "v0.1.15"}
+    - {"name": "tk-framework-widget", "version": "v0.1.17"}
     
