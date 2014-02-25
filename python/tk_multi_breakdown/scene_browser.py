@@ -13,7 +13,6 @@ import os
 import sys
 import datetime
 import threading 
-import maya
 import tank
 
 from PySide import QtCore, QtGui
@@ -35,14 +34,19 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
         
         items = []
 
-        # because maya is brittle when it comes to threads
-        # (even reading dag data WTF) have to use their 
-        # special hack. See
-        # http://download.autodesk.com/global/docs/maya2013/en_us/files/Python_Python_and_threading.htm
-        scene_objects = maya.utils.executeInMainThreadWithResult(self._app.execute_hook, "hook_scan_scene")
+        engine_name = self._app.engine.name
+        if engine_name == "tk-maya":
+            import maya
+            # because maya is brittle when it comes to threads
+            # (even reading dag data WTF) have to use their 
+            # special hack. See
+            # http://download.autodesk.com/global/docs/maya2013/en_us/files/Python_Python_and_threading.htm
+            scene_objects = maya.utils.executeInMainThreadWithResult(self._app.execute_hook, "hook_scan_scene")
+        else:
+            scene_objects = self._app.execute_hook("hook_scan_scene")
         # returns a list of dictionaries, each dict being like this:
-        # {"node": node_name, "type": "reference", "path": maya_path}
-        
+        # {"node": node_name, "type": "reference", "path": file_path}
+
         # scan scene and add all tank nodes to list
         for scene_object in scene_objects:
             
@@ -214,7 +218,7 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
                     if sg_data.get(published_file_type_field):
                         details.append( self._make_row("Type", sg_data.get(published_file_type_field).get("name")))
 
-                    details.append( self._make_row("Maya Node", d["node_name"]))
+                    details.append( self._make_row("Application Node", d["node_name"]))
 
 
                 else:
@@ -230,7 +234,7 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
                         if k in relevant_fields:
                             details.append( self._make_row(k,v) )
                 
-                    details.append( self._make_row("Maya Node", d["node_name"]))
+                    details.append( self._make_row("Application Node", d["node_name"]))
                 
                 inner = "".join(details)
                 
