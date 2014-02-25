@@ -21,7 +21,13 @@ class AppDialog(QtGui.QDialog):
 
     
     def __init__(self, app):
-        QtGui.QDialog.__init__(self)
+        engine_name = app.engine.name
+        if engine_name == "tk-maya":
+	        QtGui.QDialog.__init__(self)
+        elif engine_name == "tk-nuke":
+            QtGui.QDialog.__init__(self, parent = QtGui.QApplication.activeWindow())
+        else:
+            QtGui.QDialog.__init__(self)  # TODO: Pick an appropriate default
         self._app = app
         # set up the UI
         self.ui = Ui_Dialog()
