@@ -11,7 +11,7 @@
 import os
 import sys
 
-from PySide import QtCore, QtGui 
+from PySide import QtCore, QtGui
 
 class ClickBubblingGroupBox(QtGui.QGroupBox):
 
@@ -20,10 +20,10 @@ class ClickBubblingGroupBox(QtGui.QGroupBox):
 
     def mousePressEvent(self, event):
         event.setAccepted(False)
-        
+
     def mouseDoubleClickEvent(self, event):
         event.setAccepted(False)
-        
+
 
 
 
