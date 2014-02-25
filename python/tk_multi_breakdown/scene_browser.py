@@ -40,6 +40,7 @@ class SceneBrowserWidget(browser_widget.BrowserWidget):
         # {"node": node_name, "type": "reference", "path": file_path}
 
         # scan scene and add all tank nodes to list
+        items = []
         for scene_object in scene_objects:
             
             node_name = scene_object.get("node")
